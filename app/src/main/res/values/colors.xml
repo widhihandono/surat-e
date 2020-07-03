@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="merah">#FF453C</color>
+    <color name="biru">#318BDD</color>
+    <color name="biru_tua">#085EA2</color>
+    <color name="grey">#7A7A7A</color>
+    <color name="black">#000000</color>
+</resources>
