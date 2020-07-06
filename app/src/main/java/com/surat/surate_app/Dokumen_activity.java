@@ -47,6 +47,7 @@ public class Dokumen_activity extends AppCompatActivity {
     List<Ent_surat> pagingDokumen = new ArrayList<>();
     private String id_jenis_dokumen = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

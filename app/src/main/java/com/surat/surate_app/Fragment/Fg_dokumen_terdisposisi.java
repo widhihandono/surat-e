@@ -46,7 +46,8 @@ public class Fg_dokumen_terdisposisi extends Fragment {
     View view_pgBar;
     ProgressBar PgBar;
     Dialog dialog;
-    TextView tvProgress;
+    TextView tvProgress,tvRefresh,tvCancel;
+
 
     public Fg_dokumen_terdisposisi() {
         // Required empty public constructor
@@ -110,6 +111,9 @@ public class Fg_dokumen_terdisposisi extends Fragment {
             PgBar = view_pgBar.findViewById(R.id.pgBar);
 
             tvProgress = view_pgBar.findViewById(R.id.tvProgress);
+            tvCancel = view_pgBar.findViewById(R.id.tvCancel);
+            tvRefresh = view_pgBar.findViewById(R.id.tvRefresh);
+
 
             dialog.setTitle("Download File PDF");
             dialog.setCancelable(false);
@@ -118,6 +122,20 @@ public class Fg_dokumen_terdisposisi extends Fragment {
             PgBar.setIndeterminate(false);
             PgBar.setMax(100);
             PgBar.setVisibility(View.VISIBLE);
+
+
+            tvCancel.setOnClickListener(l->{
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + path_filex);
+                file.delete();
+                dialog.dismiss();
+                getActivity().onBackPressed();
+                getActivity().finish();
+            });
+
+            tvRefresh.setOnClickListener(l->{
+                dialog.dismiss();
+                new Fg_dokumen_terdisposisi.DownloadFile().execute(Api_Class.PDF_URL+pathx+"/"+path_filex);
+            });
 
             dialog.setContentView(view_pgBar);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

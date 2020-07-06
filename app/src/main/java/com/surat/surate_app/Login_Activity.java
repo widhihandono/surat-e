@@ -95,6 +95,7 @@ private Api_Interface api_interface;
                         {
                             sharedPref.saveSPBoolean(SharedPref.SP_SUDAH_LOGIN,true);
                             sharedPref.saveSPString("role","bupati");
+                            sharedPref.saveSPString("username",response.body().getUsername());
                             FirebaseMessaging.getInstance().subscribeToTopic("bupati");
                             startActivity(new Intent(Login_Activity.this,Menu_Utama_Activity.class));
                             finish();
@@ -103,6 +104,7 @@ private Api_Interface api_interface;
                         {
                             sharedPref.saveSPBoolean(SharedPref.SP_SUDAH_LOGIN,true);
                             sharedPref.saveSPString("role","ajudan");
+                            sharedPref.saveSPString("username",response.body().getUsername());
                             FirebaseMessaging.getInstance().subscribeToTopic("ajudan");
                             startActivity(new Intent(Login_Activity.this,Menu_Utama_Activity.class));
                             finish();

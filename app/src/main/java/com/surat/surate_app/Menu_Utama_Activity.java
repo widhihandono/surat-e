@@ -68,6 +68,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Dokumen_Adapter.JenisAdapterCallback {
+
     Ent_sifat_surat mEntsifatsurat;
     private RecyclerView.LayoutManager layoutManager;
     private List_Dokumen_Adapter listDokumenAdapter;
@@ -129,6 +130,7 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -734,7 +736,8 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
                 .setPositiveButton("Ya",new DialogInterface.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     public void onClick(DialogInterface dialog, int id) {
-                        finishAffinity();
+                    finishAffinity();
+
                     }
                 })
                 .setNegativeButton("Tidak",new DialogInterface.OnClickListener() {

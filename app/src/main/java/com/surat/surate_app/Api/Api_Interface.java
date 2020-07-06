@@ -20,7 +20,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface Api_Interface {
-    //
+
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @FormUrlEncoded
     @POST("Api_dokumen/tolak_dokumen")
