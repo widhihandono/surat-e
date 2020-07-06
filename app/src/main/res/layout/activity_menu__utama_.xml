@@ -8,11 +8,11 @@
     android:background="@drawable/background"
     tools:context=".Menu_Utama_Activity">
 
-<!--<ImageView-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="@drawable/borobudur"-->
-<!--    android:src="@drawable/background"/>-->
+    <!--<ImageView-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:background="@drawable/borobudur"-->
+    <!--    android:src="@drawable/background"/>-->
 
 
     <TextView
@@ -22,6 +22,18 @@
         android:textColor="#8F8D8D"
         android:id="@+id/version"
         android:layout_alignParentLeft="true"
+        android:layout_margin="7dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ganti Password"
+        android:padding="5dp"
+        android:gravity="center"
+        android:background="@drawable/bg_btn_violet"
+        android:textColor="#fff"
+        android:id="@+id/tvUbahPass"
+        android:layout_centerHorizontal="true"
         android:layout_margin="7dp"/>
 
     <TextView
@@ -45,83 +57,83 @@
         android:layout_marginBottom="0dp"
         android:id="@+id/swLayout">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:src="@drawable/e_disposisi_biru"
-            android:id="@+id/logo"/>
+            android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_1"
-        android:layout_below="@id/logo"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/recyclerview_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvDocument"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:src="@drawable/e_disposisi_biru"
+                    android:id="@+id/logo"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Load More..."
-            android:id="@+id/tvLoadMore"
-            android:textColor="#000"
-            android:textSize="16dp"
-            android:visibility="invisible"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/background_btn_white"
-            android:layout_below="@+id/rvDocument"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"/>
-    </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_1"
+                    android:layout_below="@id/logo"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/recyclerview_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvDocument"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Load More..."
+                    android:id="@+id/tvLoadMore"
+                    android:textColor="#000"
+                    android:textSize="16dp"
+                    android:visibility="invisible"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/background_btn_white"
+                    android:layout_below="@+id/rvDocument"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"/>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:visibility="gone"-->
-<!--        android:layout_alignParentBottom="true">-->
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:visibility="gone"-->
+    <!--        android:layout_alignParentBottom="true">-->
 
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="8dp"/>-->
+    <!--        <View-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="8dp"/>-->
 
-<!--        <android.support.design.widget.BottomNavigationView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/navBot"-->
-<!--            app:menu="@menu/menu_nav_bot_user"-->
-<!--            app:labelVisibilityMode="labeled"-->
-<!--            android:background="#000"-->
-<!--            app:itemIconTint="#FFFFFF"-->
-<!--            app:itemTextColor="#fff"-->
-<!--            />-->
-<!--    </FrameLayout>-->
+    <!--        <android.support.design.widget.BottomNavigationView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:id="@+id/navBot"-->
+    <!--            app:menu="@menu/menu_nav_bot_user"-->
+    <!--            app:labelVisibilityMode="labeled"-->
+    <!--            android:background="#000"-->
+    <!--            app:itemIconTint="#FFFFFF"-->
+    <!--            app:itemTextColor="#fff"-->
+    <!--            />-->
+    <!--    </FrameLayout>-->
 
 </RelativeLayout>

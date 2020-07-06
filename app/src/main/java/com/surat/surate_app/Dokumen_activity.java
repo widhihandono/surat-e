@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,18 +34,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Dokumen_activity extends AppCompatActivity {
-Display display;
-private RecyclerView rvDokumen;
-private RecyclerView.LayoutManager layoutManager;
-private Api_Interface api_interface;
-private TextView tvJenisDokumen;
-private int cek = -1;
-private SharedPref sharedPref;
+    Display display;
+    private RecyclerView rvDokumen;
+    private RecyclerView.LayoutManager layoutManager;
+    private Api_Interface api_interface;
+    private TextView tvJenisDokumen;
+    private int cek = -1;
+    private SharedPref sharedPref;
 
-private TextView tvLoadMore;
-int offset = 0,row_count = 10;
-List<Ent_surat> pagingDokumen = new ArrayList<>();
-private String id_jenis_dokumen = null;
+    private TextView tvLoadMore;
+    int offset = 0,row_count = 10;
+    List<Ent_surat> pagingDokumen = new ArrayList<>();
+    private String id_jenis_dokumen = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +142,67 @@ private String id_jenis_dokumen = null;
 
     }
 
+    private void search_dokumen(int sifat_dokumen,String id_jenis_dokumen,String dari, int offset,int row_count)
+    {
+        if(sharedPref.sp.getString("role","").equals("ajudan"))
+        {
+            Call<List<Ent_surat>> callListSurat = api_interface.search_dokumen_before_disposisi_by_dari("3",sifat_dokumen,id_jenis_dokumen,dari,offset,row_count);
+            callListSurat.enqueue(new Callback<List<Ent_surat>>() {
+                @Override
+                public void onResponse(Call<List<Ent_surat>> call, Response<List<Ent_surat>> response) {
+
+                    if(response.body().size() == 0 || response.body().size() < row_count || row_count == getIntent().getExtras().getInt("total"))
+                    {
+                        tvLoadMore.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        tvLoadMore.setVisibility(View.VISIBLE);
+                    }
+
+                    pagingDokumen.addAll(response.body());
+                    List_Dokumen_Adapter list_dokumen_adapter = new List_Dokumen_Adapter(Dokumen_activity.this,pagingDokumen);
+                    rvDokumen.setAdapter(list_dokumen_adapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<Ent_surat>> call, Throwable t) {
+                    Log.i("list_dokumen","Koneksi gagal");
+                }
+            });
+        }
+        else
+        {
+
+            Call<List<Ent_surat>> callListSurat = api_interface.search_dokumen_before_disposisi_by_dari("4",sifat_dokumen,id_jenis_dokumen,dari,offset,row_count);
+            callListSurat.enqueue(new Callback<List<Ent_surat>>() {
+                @Override
+                public void onResponse(Call<List<Ent_surat>> call, Response<List<Ent_surat>> response) {
+                    if(response.body().size() == 0 || response.body().size() < row_count || row_count == getIntent().getExtras().getInt("total"))
+                    {
+                        tvLoadMore.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        tvLoadMore.setVisibility(View.VISIBLE);
+                    }
+
+                    pagingDokumen.addAll(response.body());
+                    List_Dokumen_Adapter list_dokumen_adapter = new List_Dokumen_Adapter(Dokumen_activity.this,pagingDokumen);
+                    rvDokumen.setAdapter(list_dokumen_adapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<Ent_surat>> call, Throwable t) {
+                    Log.i("list_dokumen","Koneksi gagal");
+                }
+            });
+        }
+
+        pagingDokumen.clear();
+    }
+
+
     private void show_dialog_jenisDokumen(int checkedItem)
     {
         Call<List<Ent_jenis_dokumen>> callJenisDokumen = api_interface.jenis_dokumen();
@@ -201,12 +265,42 @@ private String id_jenis_dokumen = null;
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.search,menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search by Surat Dari...");
+        search(searchView);
+        return true;
+    }
+
+    private void search(SearchView searchView)
+    {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search_dokumen(getIntent().getExtras().getInt("id_sifat_dokumen",0),id_jenis_dokumen,s,offset,row_count);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
             case android.R.id.home:
                 startActivity(new Intent(Dokumen_activity.this,Menu_Utama_Activity.class));
                 finish();
+                return true;
+            case R.id.search:
                 return true;
         }
         return super.onOptionsItemSelected(item);

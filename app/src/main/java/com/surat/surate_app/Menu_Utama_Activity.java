@@ -25,11 +25,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +48,7 @@ import com.surat.surate_app.Adapter.MyAdapter;
 import com.surat.surate_app.Adapter.MyAdapter_1;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
+import com.surat.surate_app.Model.Ent_User;
 import com.surat.surate_app.Model.Ent_cekImei;
 import com.surat.surate_app.Model.Ent_jenis_dokumen;
 import com.surat.surate_app.Model.Ent_sifat_surat;
@@ -60,14 +68,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Dokumen_Adapter.JenisAdapterCallback {
-Ent_sifat_surat mEntsifatsurat;
-private RecyclerView.LayoutManager layoutManager;
-private List_Dokumen_Adapter listDokumenAdapter;
-private Api_Interface api_interface;
-SharedPref sharedPref;
-int height=0,width=0;
-TextView version,tvLogout,tvLoadMore;
-Snackbar bar;
+    Ent_sifat_surat mEntsifatsurat;
+    private RecyclerView.LayoutManager layoutManager;
+    private List_Dokumen_Adapter listDokumenAdapter;
+    private Api_Interface api_interface;
+    SharedPref sharedPref;
+    int height=0,width=0;
+    TextView version,tvLogout,tvLoadMore,tvUbahPass;
+    Snackbar bar;
     RecyclerView recyclerView_1,mRecyclerView,rvDocument;
     String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE};
 
@@ -101,8 +109,9 @@ Snackbar bar;
         version = findViewById(R.id.version);
         tvLogout = findViewById(R.id.tvLogout);
         tvLoadMore = findViewById(R.id.tvLoadMore);
+        tvUbahPass = findViewById(R.id.tvUbahPass);
 
-        version.setText("1.6");
+        version.setText("1.7");
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -119,7 +128,7 @@ Snackbar bar;
         FirebaseMessaging.getInstance().subscribeToTopic(sharedPref.sp.getString("role",""));
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-            || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -178,7 +187,111 @@ Snackbar bar;
             show_documents(offset,row_count);
         });
 
+        tvUbahPass.setOnClickListener(l->{
+            ChangePass();
+        });
+
     }
+
+    public void ChangePass() {
+        LayoutInflater layoutInflater= this.getLayoutInflater();
+        final View view = layoutInflater.inflate(R.layout.layout_edit_text_dialog, null);
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Ganti Password");
+
+        alertDialog.setCancelable(false);
+
+        CheckBox cbPassLama = view.findViewById(R.id.cbPassLama);
+        EditText etOldPass = (EditText) view.findViewById(R.id.etOldPass);
+
+        CheckBox cbPassBaru = view.findViewById(R.id.cbPassBaru);
+        EditText etNewPass = (EditText) view.findViewById(R.id.etNewPass);
+
+        cbPassLama.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    // show password
+                    etOldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    etOldPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
+
+        cbPassBaru.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    // show password
+                    etNewPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    etNewPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
+
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,"Ganti", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Call<Ent_User> changePass = api_interface.Change_pass(sharedPref.sp.getString("username",""),etOldPass.getText().toString(),etNewPass.getText().toString());
+                changePass.enqueue(new Callback<Ent_User>() {
+                    @Override
+                    public void onResponse(Call<Ent_User> call, Response<Ent_User> response) {
+                        if(response.isSuccessful())
+                        {
+                            if(response.body().getResponse() == 1)
+                            {
+                                FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPref.sp.getString("role",""));
+                                sharedPref.saveSPBoolean(SharedPref.SP_SUDAH_LOGIN,false);
+                                sharedPref.saveSPString("role","");
+                                sharedPref.saveSPString("username","");
+                                startActivity(new Intent(Menu_Utama_Activity.this,Login_Activity.class));
+                                finish();
+                            }
+                            else if(response.body().getResponse() == 0)
+                            {
+                                showSnackbar_text(response.body().getPesan());
+                            }
+                            else if(response.body().getResponse() == 2)
+                            {
+                                showDialogCekImei(response.body().getPesan());
+                            }
+                            else if(response.body().getResponse() == 3)
+                            {
+                                showSnackbar_text(response.body().getPesan());
+                            }
+
+                        }
+                        else
+                        {
+                            showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Ent_User> call, Throwable t) {
+                        showSnackbar("Mohon maaf, sedang ada gangguan pada server. Tunggu beberapa saat lagi","Refresh");
+                    }
+                });
+
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setView(view);
+        alertDialog.show();
+    }
+
 
     private void show_documents(int offset,int row_count)
     {
@@ -452,6 +565,7 @@ Snackbar bar;
                         FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPref.sp.getString("role",""));
                         sharedPref.saveSPBoolean(SharedPref.SP_SUDAH_LOGIN,false);
                         sharedPref.saveSPString("role","");
+                        sharedPref.saveSPString("username","");
 
                         startActivity(new Intent(Menu_Utama_Activity.this,Login_Activity.class));
 
@@ -493,7 +607,7 @@ Snackbar bar;
                     }
                     else
                     {
-                        if(Float.parseFloat(response.body().getVersi()) > 1.6)
+                        if(Float.parseFloat(response.body().getVersi()) > 1.7)
                         {
                             showDialogCekVersion(response.body().getPesan());
                         }
@@ -530,6 +644,20 @@ Snackbar bar;
                 bar.dismiss();
                 startActivity(new Intent(Menu_Utama_Activity.this,Menu_Utama_Activity.class));
                 finish();
+            }
+        });
+        bar.show();
+
+    }
+
+    private void showSnackbar_text(String text)
+    {
+
+        bar = Snackbar.make(findViewById(R.id.sb_menu_utama),text, Snackbar.LENGTH_INDEFINITE);
+        bar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bar.dismiss();
             }
         });
         bar.show();
@@ -606,7 +734,7 @@ Snackbar bar;
                 .setPositiveButton("Ya",new DialogInterface.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     public void onClick(DialogInterface dialog, int id) {
-                      finishAffinity();
+                        finishAffinity();
                     }
                 })
                 .setNegativeButton("Tidak",new DialogInterface.OnClickListener() {

@@ -20,12 +20,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface Api_Interface {
-//
+    //
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @FormUrlEncoded
     @POST("Api_dokumen/tolak_dokumen")
     Call<Ent_surat>  tolak_dokumen(@Field("id_disposisi") int id_disposisi,
-                                    @Field("alasan") String alasan,
+                                   @Field("alasan") String alasan,
                                    @Field("status") String status);
 
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
@@ -42,6 +42,13 @@ public interface Api_Interface {
 
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @FormUrlEncoded
+    @POST("Api_dokumen/change_pass")
+    Call<Ent_User>  Change_pass(@Field("username") String username,
+                                @Field("pass_lama") String pass_lama,
+                                @Field("pass_baru") String pass_baru);
+
+    @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
+    @FormUrlEncoded
     @POST("Api_dokumen/show_dokumen_before_disposisi")
     Call<List<Ent_surat>>  show_dokumen_before_disposisi(@Field("status") String status,
                                                          @Field("id_sifat_dokumen") int id_sifat_dokumen,
@@ -51,9 +58,19 @@ public interface Api_Interface {
 
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @FormUrlEncoded
+    @POST("Api_dokumen/search_dokumen_before_disposisi_by_dari")
+    Call<List<Ent_surat>>  search_dokumen_before_disposisi_by_dari(@Field("status") String status,
+                                                                   @Field("id_sifat_dokumen") int id_sifat_dokumen,
+                                                                   @Field("id_jenis_dokumen") String id_jenis_dokumen,
+                                                                   @Field("dari") String dari,
+                                                                   @Field("offset") int offset,
+                                                                   @Field("row_count") int row_count);
+
+    @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
+    @FormUrlEncoded
     @POST("Api_dokumen/update_disposisi")
     Call<Ent_surat>  update_disposisi(@Field("id_disposisi") int id_disposisi,
-                                        @Field("image_disposisi") String image_disposisi);
+                                      @Field("image_disposisi") String image_disposisi);
 
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @GET("Api_dokumen/show_total_surat")
@@ -68,7 +85,7 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("Api_dokumen/show_all_dokumen_ditolak_bupati")
     Call<List<Ent_surat>> show_all_dokumen_ditolak_bupati(@Field("offset") int offset,
-                                                            @Field("row_count") int row_count);
+                                                          @Field("row_count") int row_count);
 
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @FormUrlEncoded
