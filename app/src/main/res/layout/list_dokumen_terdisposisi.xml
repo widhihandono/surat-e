@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_menu"
+    android:padding="8dp"
+    android:id="@+id/rl_bg"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="8dp">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <TableRow android:padding="5dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/view_file_96px"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text=" 09-09-2019"
+                        android:textColor="#424242"
+                        android:textSize="10dp"
+                        android:id="@+id/tvTglMasuk"
+                        android:drawableLeft="@drawable/download_12px"
+                        />
+                    <TextView
+                        android:layout_marginTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:drawableLeft="@drawable/send_calender_bupati_12px"
+                        android:text=" 09-09-2019"
+                        android:textColor="#424242"
+                        android:id="@+id/tvTglKirim"
+                        android:textStyle="bold"
+                        android:textSize="10dp" />
+                </LinearLayout>
+            </TableRow>
+
+
+
+            <TableRow
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:id="@+id/trData"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TableLayout android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp">
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tgl.Surat"
+                            android:textColor="#424242"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" : "
+                            android:textColor="#424242"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="hjajhffjhjf"
+                            android:textColor="#424242"
+                            android:id="@+id/tvTglSurat"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Surat Dari"
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" : "
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="hjajhffjhjf"
+                            android:textColor="#000"
+                            android:id="@+id/tvSuratDari"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nomor Surat"
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" : "
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="hjajhffjhjf"
+                            android:id="@+id/tvNomorSurat"
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:weightSum="4">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Perihal"
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" : "
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tvPerihal"
+                            android:text="hjajhffjhjjhshdf jhdsfkjshkgs jkghskg "
+                            android:textColor="#000"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="13dp"/>
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+
+        </TableRow>
+
+
+
+    </TableLayout>
+
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tvTglDokumen"-->
+        <!--android:text="09-09-2019"-->
+        <!--android:fontFamily="sans-serif-light"-->
+        <!--android:textSize="13dp"/>-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tvSifatDokumen"-->
+        <!--android:text="Amat Rahasia"-->
+        <!--android:fontFamily="sans-serif-light"-->
+        <!--android:textSize="13dp"-->
+        <!--android:layout_alignParentRight="true"/>-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tvNomorDokumen"-->
+        <!--android:textColor="#000"-->
+        <!--android:textSize="15dp"-->
+        <!--android:layout_below="@id/tvTglDokumen"-->
+        <!--android:text="08987878778"/>-->
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tvNoAgenda"-->
+        <!--android:textColor="#000"-->
+        <!--android:textSize="15dp"-->
+        <!--android:layout_below="@id/tvNomorDokumen"-->
+        <!--android:text="5756865856"/>-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tvPerihal"-->
+        <!--android:text="fsgfdsgdfh"-->
+        <!--android:textColor="#000"-->
+        <!--android:textSize="15dp"-->
+        <!--android:layout_below="@+id/tvNoAgenda"/>-->
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#727070"-->
+        <!--android:layout_below="@+id/tvPerihal"-->
+        <!--android:layout_marginTop="4dp"/>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amat Segera"
+        android:layout_alignParentRight="true"
+        android:textColor="#424242"
+        android:layout_marginTop="3dp"
+        android:id="@+id/tvSifatDokumen"
+        android:fontFamily="sans-serif-light"
+        android:textSize="13dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="19-09-2020"
+        android:textColor="#424242"
+        android:textSize="14dp"
+        android:layout_below="@id/tvSifatDokumen"
+        android:layout_marginRight="5dp"
+        android:id="@+id/tvKirimBupati"
+        android:layout_marginTop="3dp"/>
+</LinearLayout>

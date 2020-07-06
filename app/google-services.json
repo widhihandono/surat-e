@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "project_number": "689895549151",
+    "firebase_url": "https://sacoretappnotifications.firebaseio.com",
+    "project_id": "sacoretappnotifications",
+    "storage_bucket": "sacoretappnotifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689895549151:android:8e75a24a96b44a9f",
+        "android_client_info": {
+          "package_name": "com.example.putri.sacoretapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689895549151-8smn29e3nkn1u9otk4dcc136v4fuako7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.putri.sacoretapp",
+            "certificate_hash": "3483c20679491a668d856ffd6a55247d26a913da"
+          }
+        },
+        {
+          "client_id": "689895549151-v7trl2gpvpd7oimfqv1dqadfr6hhit7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxscEByCT5gbTavQYVeGxEWn5uabhxe5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689895549151-v7trl2gpvpd7oimfqv1dqadfr6hhit7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689895549151:android:bbf75439211e28ace0a16a",
+        "android_client_info": {
+          "package_name": "com.surat.surate_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689895549151-b177oouitcb99shmkfuhgqp60im899do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.surat.surate_app",
+            "certificate_hash": "1cb982c8f0a6aaf075bad7e9fe0c73f9e845d5f5"
+          }
+        },
+        {
+          "client_id": "689895549151-v7trl2gpvpd7oimfqv1dqadfr6hhit7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxscEByCT5gbTavQYVeGxEWn5uabhxe5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689895549151-v7trl2gpvpd7oimfqv1dqadfr6hhit7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689895549151:android:fbd857bc91739150e0a16a",
+        "android_client_info": {
+          "package_name": "com.truck.truck_sampah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689895549151-uqo252hoh99lbpni3vq6mmuivojvodpu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.truck.truck_sampah",
+            "certificate_hash": "1cb982c8f0a6aaf075bad7e9fe0c73f9e845d5f5"
+          }
+        },
+        {
+          "client_id": "689895549151-v7trl2gpvpd7oimfqv1dqadfr6hhit7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxscEByCT5gbTavQYVeGxEWn5uabhxe5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689895549151-v7trl2gpvpd7oimfqv1dqadfr6hhit7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Fg_alasan">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alasan Ditolak Bupati :"
+            android:textSize="17dp"
+            android:textColor="#000"
+            android:layout_margin="7dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvAlasanDitolakBupati"
+            android:background="@drawable/text_box_alasan"
+            android:text="Alasan Ditolak Bupati"
+            android:textSize="16dp"
+            android:padding="5dp"
+            android:textColor="#1C1C1C"
+            android:layout_margin="7dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLanjutkan"
+            android:background="@drawable/background_btn_red"
+            android:text="Teruskan ke TU Bupati  "
+            android:textSize="16dp"
+            android:padding="7dp"
+            android:layout_gravity="right"
+            android:drawableRight="@drawable/ic_send"
+            android:textColor="#fff"
+            android:layout_margin="7dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

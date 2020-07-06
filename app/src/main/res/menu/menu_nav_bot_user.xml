@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_dokumen_24dp"
+        android:id="@+id/btnDokumen"
+        android:title="Dokumen"
+        />
+
+    <item
+        android:icon="@drawable/ic_nodin_34dp"
+        android:id="@+id/btnNodin"
+        android:title="Nota Dinas"
+        />
+
+
+    <item
+        android:icon="@drawable/ic_fax_34dp"
+        android:id="@+id/btnFax"
+        android:title="Fax"
+        />
+
+    <item
+        android:icon="@drawable/ic_telaah_34dp"
+        android:id="@+id/btnTelaah"
+        android:title="Telaah"
+        />
+</menu>

@@ -1,0 +1,31 @@
+package com.surat.surate_app.Model;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class Ent_jenis_dokumen {
+
+    @SerializedName("id_jenis_dokumen")
+    @Expose
+    private String id_jenis_dokumen;
+
+    @SerializedName("jenis_dokumen")
+    @Expose
+    private String jenis_dokumen;
+
+    public String getId_jenis_dokumen() {
+        return id_jenis_dokumen;
+    }
+
+    public void setId_jenis_dokumen(String id_jenis_dokumen) {
+        this.id_jenis_dokumen = id_jenis_dokumen;
+    }
+
+    public String getJenis_dokumen() {
+        return jenis_dokumen;
+    }
+
+    public void setJenis_dokumen(String jenis_dokumen) {
+        this.jenis_dokumen = jenis_dokumen;
+    }
+}
