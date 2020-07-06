@@ -53,7 +53,7 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
 
             <RelativeLayout
@@ -74,36 +74,56 @@
                     android:layout_height="wrap_content"
                     android:scrollbars="horizontal" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_marginTop="8dp"
+                <android.support.design.widget.TabLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tablayout"
                     android:layout_below="@id/recyclerview_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvDocument"
-                    android:layout_marginTop="8dp"
-                    android:layout_below="@id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Load More..."
-                    android:id="@+id/tvLoadMore"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    android:visibility="invisible"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/background_btn_white"
-                    android:layout_below="@+id/rvDocument"
+                    android:layout_marginTop="20dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"/>
+                    android:background="@color/merah"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                </android.support.design.widget.TabLayout>
+
+                <android.support.v4.view.ViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="800dp"
+                    android:id="@+id/pager"
+                    android:layout_below="@id/tablayout">
+
+                </android.support.v4.view.ViewPager>
+<!--                <android.support.v7.widget.RecyclerView-->
+<!--                    android:id="@+id/recyclerview"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_below="@id/recyclerview_1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:scrollbars="vertical" />-->
+
+<!--                <android.support.v7.widget.RecyclerView-->
+<!--                    android:id="@+id/rvDocument"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_below="@id/recyclerview"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:scrollbars="vertical" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Load More..."-->
+<!--                    android:id="@+id/tvLoadMore"-->
+<!--                    android:textColor="#000"-->
+<!--                    android:textSize="16dp"-->
+<!--                    android:visibility="invisible"-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    android:background="@drawable/background_btn_white"-->
+<!--                    android:layout_below="@+id/rvDocument"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:padding="10dp"/>-->
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

@@ -16,7 +16,9 @@ import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +50,8 @@ import com.surat.surate_app.Adapter.MyAdapter;
 import com.surat.surate_app.Adapter.MyAdapter_1;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
+import com.surat.surate_app.Fragment.fg_jenis;
+import com.surat.surate_app.Fragment.fg_sifat;
 import com.surat.surate_app.Model.Ent_User;
 import com.surat.surate_app.Model.Ent_cekImei;
 import com.surat.surate_app.Model.Ent_jenis_dokumen;
@@ -67,7 +71,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Dokumen_Adapter.JenisAdapterCallback {
+public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Dokumen_Adapter.JenisAdapterCallback,
+fg_sifat.OnFragmentInteractionListener,
+        fg_jenis.OnFragmentInteractionListener{
 
     Ent_sifat_surat mEntsifatsurat;
     private RecyclerView.LayoutManager layoutManager;
@@ -75,9 +81,9 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
     private Api_Interface api_interface;
     SharedPref sharedPref;
     int height=0,width=0;
-    TextView version,tvLogout,tvLoadMore,tvUbahPass;
+    TextView version,tvLogout,tvUbahPass;
     Snackbar bar;
-    RecyclerView recyclerView_1,mRecyclerView,rvDocument;
+    RecyclerView recyclerView_1;
     String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE};
 
     int permsRequestCode = 200;
@@ -88,6 +94,8 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
 
     List<Ent_surat> pagingSurat = new ArrayList<>();
     int offset = 0,row_count = 10;
+
+    ViewPager vPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,18 +109,23 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
         crudSqlite = new Crud(this);
 
 
-        mRecyclerView = findViewById(R.id.recyclerview);
         recyclerView_1 = findViewById(R.id.recyclerview_1);
-        rvDocument = findViewById(R.id.rvDocument);
         layoutManager = new LinearLayoutManager(this);
-        rvDocument.setLayoutManager(layoutManager);
         swLayout = findViewById(R.id.swLayout);
         version = findViewById(R.id.version);
         tvLogout = findViewById(R.id.tvLogout);
-        tvLoadMore = findViewById(R.id.tvLoadMore);
         tvUbahPass = findViewById(R.id.tvUbahPass);
 
         version.setText("1.7");
+
+        vPager =  findViewById(R.id.pager);
+        TabPager_sifat_jenis_Adapter myPagerAdapter = new TabPager_sifat_jenis_Adapter(getSupportFragmentManager());
+        myPagerAdapter.addFragment();
+        myPagerAdapter.addFragment();
+        vPager.setAdapter(myPagerAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(vPager);
+
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -148,11 +161,7 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
         GridLayoutManager mGridLayoutManager_1 = new GridLayoutManager(Menu_Utama_Activity.this, 4);
         recyclerView_1.setLayoutManager(mGridLayoutManager_1);
 
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(Menu_Utama_Activity.this, 2);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
         show_total();
-        show_documents(offset,row_count);
-
 
         NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
         notificationUtils.StopNotificationSound();
@@ -168,7 +177,6 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
 
                         swLayout.setRefreshing(false);
                         show_total();
-                        show_documents(0,10);
                         finish();
                         finish();
                         overridePendingTransition( 0, 0);
@@ -182,11 +190,6 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
 
         tvLogout.setOnClickListener(l->{
             showDialogLogout();
-        });
-
-        tvLoadMore.setOnClickListener(l->{
-            offset = offset + 10;
-            show_documents(offset,row_count);
         });
 
         tvUbahPass.setOnClickListener(l->{
@@ -295,44 +298,6 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
     }
 
 
-    private void show_documents(int offset,int row_count)
-    {
-        if(sharedPref.sp.getString("role","").equals("bupati"))
-        {
-            Call<List<Ent_surat>> callDocuments = api_interface.show_all_dokumen_before_disposisi(offset, row_count);
-            callDocuments.enqueue(new Callback<List<Ent_surat>>() {
-                @Override
-                public void onResponse(Call<List<Ent_surat>> call, Response<List<Ent_surat>> response) {
-                    if(response.isSuccessful())
-                    {
-                        if(response.body().size() == 0 || response.body().size() < row_count)
-                        {
-                            tvLoadMore.setVisibility(View.INVISIBLE);
-                        }
-                        else
-                        {
-                            tvLoadMore.setVisibility(View.VISIBLE);
-                        }
-
-                        pagingSurat.addAll(response.body());
-                        listDokumenAdapter = new List_Dokumen_Adapter(Menu_Utama_Activity.this,pagingSurat);
-                        rvDocument.setAdapter(listDokumenAdapter);
-                    }
-                    else
-                    {
-                        showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<Ent_surat>> call, Throwable t) {
-                    Log.e("menu_utama","show documents");
-                    showSnackbar("Network failed","Restart");
-                }
-            });
-        }
-
-    }
 
     private void cek_imei()
     {
@@ -427,33 +392,6 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
                                 recyclerView_1.setAdapter(myAdapter_1);
                             }
 
-
-                            //==============================Bawah====================================================================
-
-                            List<Ent_sifat_surat> mSifatSuratList = new ArrayList<>();
-                            mEntsifatsurat = new Ent_sifat_surat(1,"Amat Segera",response.body().getAmat_segera(),
-                                    R.drawable.amat_segera_32px,"#673BB7","Amat_Segera");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(2,"Segera",response.body().getSegera(),
-                                    R.drawable.bell,"#FF453C","Segera");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(3,"Rahasia",response.body().getRahasia(),
-                                    R.drawable.mail,"#3E51B1","Rahasia");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(4,"Penting",response.body().getPenting(),
-                                    R.drawable.rahasia_32px,"#D81B60","Penting");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(5,"Biasa",response.body().getBiasa(),
-                                    R.drawable.bukan_rahasia_32px,"#033C70","Biasa");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(6,"Tembusan",response.body().getTembusan(),
-                                    R.drawable.bell,"#096459","Tembusan");
-                            mSifatSuratList.add(mEntsifatsurat);
-
-
-
-                            MyAdapter myAdapter = new MyAdapter(Menu_Utama_Activity.this, mSifatSuratList);
-                            mRecyclerView.setAdapter(myAdapter);
                         }
 
                     }
@@ -503,32 +441,6 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
                             MyAdapter_1 myAdapter_1 = new MyAdapter_1(Menu_Utama_Activity.this, mSifatSuratList_1);
                             recyclerView_1.setAdapter(myAdapter_1);
 
-                            //==============================Bawah====================================================================
-
-                            List<Ent_sifat_surat> mSifatSuratList = new ArrayList<>();
-                            mEntsifatsurat = new Ent_sifat_surat(1,"Amat Segera",response.body().getAmat_segera(),
-                                    R.drawable.amat_segera_32px,"#673BB7","Amat_Segera");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(2,"Segera",response.body().getSegera(),
-                                    R.drawable.bell,"#FF453C","Segera");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(3,"Rahasia",response.body().getRahasia(),
-                                    R.drawable.rahasia_32px,"#3E51B1","Rahasia");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(4,"Penting",response.body().getPenting(),
-                                    R.drawable.mail,"#D81B60","Penting");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(5,"Biasa",response.body().getBiasa(),
-                                    R.drawable.bukan_rahasia_32px,"#033C70","Biasa");
-                            mSifatSuratList.add(mEntsifatsurat);
-                            mEntsifatsurat = new Ent_sifat_surat(6,"Tembusan",response.body().getTembusan(),
-                                    R.drawable.bell,"#096459","Tembusan");
-                            mSifatSuratList.add(mEntsifatsurat);
-
-
-
-                            MyAdapter myAdapter = new MyAdapter(Menu_Utama_Activity.this, mSifatSuratList);
-                            mRecyclerView.setAdapter(myAdapter);
                         }
 
                     }
@@ -790,6 +702,10 @@ public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Doku
     public void onRowJenisDokumenClicked(String id_jenis_dokumen) {
         id_jenis = id_jenis_dokumen;
         show_total();
-        show_documents(0,3);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

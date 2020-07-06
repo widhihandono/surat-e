@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/background_btn_white"
+    android:padding="15dp"
+    android:layout_margin="5dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mail"
+        android:background="#3F51B5"
+        android:padding="20dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jenis Dokumen"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:id="@+id/tvJenisSurat"
+            android:textColor="#2B2A2A"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total : 10"
+            android:layout_marginTop="3dp"
+            android:id="@+id/tvJumlahSurat"
+            android:textSize="16dp"
+            android:fontFamily="sans-serif"
+            android:textColor="#353535"/>
+    </LinearLayout>
+</LinearLayout>
