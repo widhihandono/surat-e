@@ -75,7 +75,7 @@ fg_sifat.OnFragmentInteractionListener,
     private Api_Interface api_interface;
     SharedPref sharedPref;
     int height=0,width=0;
-    TextView version,tvLogout,tvUbahPass;
+    TextView version,tvSetting,tvUbahPass;
     Snackbar bar;
     RecyclerView recyclerView_1;
     String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE};
@@ -107,7 +107,7 @@ fg_sifat.OnFragmentInteractionListener,
         layoutManager = new LinearLayoutManager(this);
         swLayout = findViewById(R.id.swLayout);
         version = findViewById(R.id.version);
-        tvLogout = findViewById(R.id.tvLogout);
+        tvSetting = findViewById(R.id.tvSetting);
         tvUbahPass = findViewById(R.id.tvUbahPass);
 
         version.setText("1.7");
@@ -182,14 +182,46 @@ fg_sifat.OnFragmentInteractionListener,
         });
 
 
-        tvLogout.setOnClickListener(l->{
-            showDialogLogout();
+        tvSetting.setOnClickListener(l->{
+            Setting_PopUp();
         });
+
+//        tvUbahPass.setOnClickListener(l->{
+//            ChangePass();
+//        });
+
+    }
+
+    public void Setting_PopUp()
+    {
+        LayoutInflater layoutInflater= this.getLayoutInflater();
+        final View view = layoutInflater.inflate(R.layout.layout_setting, null);
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Setting");
+
+        alertDialog.setCancelable(false);
+
+        TextView tvUbahPass =  view.findViewById(R.id.tvUbahPassword);
+
+        TextView tvLogOut = (TextView) view.findViewById(R.id.tvLogOut);
+
 
         tvUbahPass.setOnClickListener(l->{
             ChangePass();
         });
 
+        tvLogOut.setOnClickListener(l->{
+            showDialogLogout();
+        });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setView(view);
+        alertDialog.show();
     }
 
     public void ChangePass() {
@@ -236,49 +268,58 @@ fg_sifat.OnFragmentInteractionListener,
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,"Ganti", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if((etNewPass.getText().equals("") || etNewPass.getText().equals(null)) || etOldPass.getText().equals("") || etOldPass.getText().equals(null))
+                {
+                    Toast.makeText(Menu_Utama_Activity.this,"Form tidak boleh kosong !",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Call<Ent_User> changePass = api_interface.Change_pass(sharedPref.sp.getString("username",""),etOldPass.getText().toString(),etNewPass.getText().toString());
+                    changePass.enqueue(new Callback<Ent_User>() {
+                        @Override
+                        public void onResponse(Call<Ent_User> call, Response<Ent_User> response) {
+                            if(response.isSuccessful())
+                            {
+                                if(response.body().getResponse() == 1)
+                                {
+                                    FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPref.sp.getString("role",""));
+                                    sharedPref.saveSPBoolean(SharedPref.SP_SUDAH_LOGIN,false);
+                                    sharedPref.saveSPString("role","");
+                                    sharedPref.saveSPString("username","");
+                                    startActivity(new Intent(Menu_Utama_Activity.this,Login_Activity.class));
+                                    finish();
+                                }
+                                else if(response.body().getResponse() == 0)
+                                {
+                                    showSnackbar_text(response.body().getPesan());
+                                }
+                                else if(response.body().getResponse() == 2)
+                                {
+                                    showDialogCekImei(response.body().getPesan());
+                                }
+                                else if(response.body().getResponse() == 3)
+                                {
+                                    showSnackbar_text(response.body().getPesan());
+                                }
 
-                Call<Ent_User> changePass = api_interface.Change_pass(sharedPref.sp.getString("username",""),etOldPass.getText().toString(),etNewPass.getText().toString());
-                changePass.enqueue(new Callback<Ent_User>() {
-                    @Override
-                    public void onResponse(Call<Ent_User> call, Response<Ent_User> response) {
-                        if(response.isSuccessful())
-                        {
-                            if(response.body().getResponse() == 1)
-                            {
-                                FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPref.sp.getString("role",""));
-                                sharedPref.saveSPBoolean(SharedPref.SP_SUDAH_LOGIN,false);
-                                sharedPref.saveSPString("role","");
-                                sharedPref.saveSPString("username","");
-                                startActivity(new Intent(Menu_Utama_Activity.this,Login_Activity.class));
-                                finish();
                             }
-                            else if(response.body().getResponse() == 0)
+                            else
                             {
-                                showSnackbar_text(response.body().getPesan());
+                                showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
                             }
-                            else if(response.body().getResponse() == 2)
-                            {
-                                showDialogCekImei(response.body().getPesan());
-                            }
-                            else if(response.body().getResponse() == 3)
-                            {
-                                showSnackbar_text(response.body().getPesan());
-                            }
-
                         }
-                        else
-                        {
-                            showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+
+                        @Override
+                        public void onFailure(Call<Ent_User> call, Throwable t) {
+                            showSnackbar("Mohon maaf, sedang ada gangguan pada server. Tunggu beberapa saat lagi","Refresh");
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onFailure(Call<Ent_User> call, Throwable t) {
-                        showSnackbar("Mohon maaf, sedang ada gangguan pada server. Tunggu beberapa saat lagi","Refresh");
-                    }
-                });
+                    dialog.dismiss();
+                }
 
-                dialog.dismiss();
+
+
             }
         });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Batal", new DialogInterface.OnClickListener() {
@@ -290,8 +331,6 @@ fg_sifat.OnFragmentInteractionListener,
         alertDialog.setView(view);
         alertDialog.show();
     }
-
-
 
     private void cek_imei()
     {
