@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.surat.surate_app.Detail_Dokumen_Activity;
+import com.surat.surate_app.Dokumen_by_id_jenis_Activity;
 import com.surat.surate_app.Model.Ent_jenis_dokumen;
 import com.surat.surate_app.Model.Ent_surat;
 import com.surat.surate_app.R;
@@ -47,6 +48,15 @@ private List<Ent_jenis_dokumen> listJenisDokumen;
     public void onBindViewHolder(@NonNull List_Jenis_Dokumen_Adapter.ViewHolder holder, int i) {
 
         holder.tvJenisSurat.setText(listJenisDokumen.get(i).getJenis_dokumen());
+        holder.tvJumlahSurat.setText("Jumlah Dokumen : "+listJenisDokumen.get(i).getJumlah_dokumen());
+
+        holder.itemView.setOnClickListener(l->{
+            Intent intent = new Intent(context, Dokumen_by_id_jenis_Activity.class);
+            intent.putExtra("id_jenis_dokumen",listJenisDokumen.get(i).getId_jenis_dokumen());
+            intent.putExtra("jenis_dokumen",listJenisDokumen.get(i).getJenis_dokumen());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -58,10 +68,8 @@ private List<Ent_jenis_dokumen> listJenisDokumen;
         private TextView tvJenisSurat,tvJumlahSurat;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tvJenisSurat = itemView.findViewById(R.id.tvJenisSurat);
             tvJumlahSurat = itemView.findViewById(R.id.tvJumlahSurat);
-
 
         }
     }

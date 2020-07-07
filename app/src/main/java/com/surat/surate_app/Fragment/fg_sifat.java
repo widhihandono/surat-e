@@ -179,7 +179,8 @@ public class fg_sifat extends Fragment {
                     }
                     else
                     {
-                        showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+//                        showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+                        Log.e("menu_utama","Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi");
                     }
 
 
@@ -188,7 +189,7 @@ public class fg_sifat extends Fragment {
                 @Override
                 public void onFailure(Call<Ent_total_surat> call, Throwable t) {
                     Log.e("menu_utama","Gagal koneksi");
-                    showSnackbar("Network failed","Restart");
+//                    showSnackbar("Network failed","Restart");
                 }
             });
         }
@@ -237,7 +238,8 @@ public class fg_sifat extends Fragment {
                     }
                     else
                     {
-                        showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+//                        showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+                        Log.e("menu_utama","Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi");
                     }
 
 
@@ -246,7 +248,7 @@ public class fg_sifat extends Fragment {
                 @Override
                 public void onFailure(Call<Ent_total_surat> call, Throwable t) {
                     Log.e("menu_utama","Gagal koneksi");
-                    showSnackbar("Network failed","Restart");
+//                    showSnackbar("Network failed","Restart");
                 }
             });
         }
@@ -278,14 +280,15 @@ public class fg_sifat extends Fragment {
                     }
                     else
                     {
-                        showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+//                        showSnackbar("Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi","Refresh");
+                        Log.e("menu_utama","Mohon maaf terjadi gangguan. Tunggu beberapa saat lagi");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<List<Ent_surat>> call, Throwable t) {
                     Log.e("menu_utama","show documents");
-                    showSnackbar("Network failed","Restart");
+//                    showSnackbar("Network failed","Restart");
                 }
             });
         }
@@ -326,21 +329,21 @@ public class fg_sifat extends Fragment {
         }
     }
 
-    private void showSnackbar(String text, String action)
-    {
-
-        bar = Snackbar.make(getActivity().findViewById(R.id.sb_menu_utama),text, Snackbar.LENGTH_INDEFINITE);
-        bar.setAction(action, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bar.dismiss();
-                startActivity(new Intent(getContext(),Menu_Utama_Activity.class));
-                getActivity().finish();
-            }
-        });
-        bar.show();
-
-    }
+//    private void showSnackbar(String text, String action)
+//    {
+//
+//        bar = Snackbar.make(getActivity().findViewById(R.id.sb_menu_utama),text, Snackbar.LENGTH_INDEFINITE);
+//        bar.setAction(action, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bar.dismiss();
+//                startActivity(new Intent(getContext(),Menu_Utama_Activity.class));
+//                getActivity().finish();
+//            }
+//        });
+//        bar.show();
+//
+//    }
 
     @Override
     public void onAttach(Context context) {

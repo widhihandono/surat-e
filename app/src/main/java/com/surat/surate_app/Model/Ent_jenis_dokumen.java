@@ -13,6 +13,18 @@ public class Ent_jenis_dokumen {
     @Expose
     private String jenis_dokumen;
 
+    @SerializedName("jumlah_dokumen")
+    @Expose
+    private String jumlah_dokumen;
+
+    public String getJumlah_dokumen() {
+        return jumlah_dokumen;
+    }
+
+    public void setJumlah_dokumen(String jumlah_dokumen) {
+        this.jumlah_dokumen = jumlah_dokumen;
+    }
+
     public String getId_jenis_dokumen() {
         return id_jenis_dokumen;
     }

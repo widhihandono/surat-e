@@ -6,6 +6,7 @@
     <color name="merah">#FF453C</color>
     <color name="biru">#318BDD</color>
     <color name="biru_tua">#085EA2</color>
+    <color name="biru_muda">#E9ECFC</color>
     <color name="grey">#7A7A7A</color>
     <color name="black">#000000</color>
 </resources>

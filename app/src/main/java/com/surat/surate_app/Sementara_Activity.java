@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.surat.surate_app.Adapter.TabPager_lokal_Adapter;
+import com.surat.surate_app.Adapter.TabPager_sifat_jenis_Adapter;
 import com.surat.surate_app.Fragment.fg_jenis;
 import com.surat.surate_app.Fragment.fg_sifat;
 

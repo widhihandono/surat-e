@@ -81,7 +81,7 @@
                     android:layout_below="@id/recyclerview_1"
                     android:layout_marginTop="20dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@color/merah"
+                    android:background="#98A1DA"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 

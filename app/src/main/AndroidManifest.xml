@@ -17,9 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Sementara_Activity">
-
-        </activity>
+        <activity android:name=".Dokumen_by_id_jenis_Activity"></activity>
+        <activity android:name=".Sementara_Activity"></activity>
         <activity
             android:name=".Detail_Ditolak_Bupati_Activity"
             android:theme="@style/AppTheme_1" />
@@ -86,7 +85,6 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

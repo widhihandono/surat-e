@@ -6,17 +6,23 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.surat.surate_app.Adapter.List_Dokumen_Adapter;
 import com.surat.surate_app.Adapter.List_Jenis_Dokumen_Adapter;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
+import com.surat.surate_app.Dokumen_activity;
 import com.surat.surate_app.Model.Ent_jenis_dokumen;
+import com.surat.surate_app.Model.Ent_surat;
 import com.surat.surate_app.R;
+import com.surat.surate_app.Util.SharedPref;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,6 +43,7 @@ public class fg_jenis extends Fragment {
     private RecyclerView rvJenisDokumen;
     private RecyclerView.LayoutManager layoutManager;
     private List_Jenis_Dokumen_Adapter dokumen_adapter;
+    private SharedPref sharedPref;
 
     public fg_jenis() {
         // Required empty public constructor
@@ -64,32 +71,63 @@ public class fg_jenis extends Fragment {
             api_interface = Api_Class.getClient().create(Api_Interface.class);
             rvJenisDokumen = view.findViewById(R.id.rvJenisDokumen);
             rvJenisDokumen.setLayoutManager(layoutManager);
+            sharedPref = new SharedPref(getActivity());
 
-        Call<List<Ent_jenis_dokumen>> listJenis = api_interface.jenis_dokumen();
-        listJenis.enqueue(new Callback<List<Ent_jenis_dokumen>>() {
-            @Override
-            public void onResponse(Call<List<Ent_jenis_dokumen>> call, Response<List<Ent_jenis_dokumen>> response) {
-                if(response.isSuccessful())
-                {
-                    List<Ent_jenis_dokumen> listJenisDok = response.body();
+            if(sharedPref.sp.getString("role","").equals("ajudan"))
+            {
+                Call<List<Ent_jenis_dokumen>> listJenis = api_interface.list_jenis_dokumen_jml("3");
+                listJenis.enqueue(new Callback<List<Ent_jenis_dokumen>>() {
+                    @Override
+                    public void onResponse(Call<List<Ent_jenis_dokumen>> call, Response<List<Ent_jenis_dokumen>> response) {
+                        if(response.isSuccessful())
+                        {
+                            List<Ent_jenis_dokumen> listJenisDok = response.body();
 
-                    Toast.makeText(getContext(),""+listJenisDok.size(),Toast.LENGTH_LONG).show();
-                    dokumen_adapter = new List_Jenis_Dokumen_Adapter(getContext(),listJenisDok);
-                    rvJenisDokumen.setAdapter(dokumen_adapter);
-                }
-                else
-                {
-                    Toast.makeText(getContext(),"Maaf sedang ada gangguan di server, Coba lagi nanti",Toast.LENGTH_LONG).show();
-                }
+                            dokumen_adapter = new List_Jenis_Dokumen_Adapter(getContext(),listJenisDok);
+                            rvJenisDokumen.setAdapter(dokumen_adapter);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(),"Maaf sedang ada gangguan di server, Coba lagi nanti",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Ent_jenis_dokumen>> call, Throwable t) {
+                        Toast.makeText(getContext(),"Netwrok Failed",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            else
+            {
+                Call<List<Ent_jenis_dokumen>> listJenis = api_interface.list_jenis_dokumen_jml("4");
+                listJenis.enqueue(new Callback<List<Ent_jenis_dokumen>>() {
+                    @Override
+                    public void onResponse(Call<List<Ent_jenis_dokumen>> call, Response<List<Ent_jenis_dokumen>> response) {
+                        if(response.isSuccessful())
+                        {
+                            List<Ent_jenis_dokumen> listJenisDok = response.body();
+
+                            dokumen_adapter = new List_Jenis_Dokumen_Adapter(getContext(),listJenisDok);
+                            rvJenisDokumen.setAdapter(dokumen_adapter);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(),"Maaf sedang ada gangguan di server, Coba lagi nanti",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Ent_jenis_dokumen>> call, Throwable t) {
+                        Toast.makeText(getContext(),"Netwrok Failed",Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
-            @Override
-            public void onFailure(Call<List<Ent_jenis_dokumen>> call, Throwable t) {
-                Toast.makeText(getContext(),"Sedang ada gangguan pada koneksi, Coba lagi nanti",Toast.LENGTH_LONG).show();
-            }
-        });
         return view;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

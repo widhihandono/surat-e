@@ -58,6 +58,24 @@ public interface Api_Interface {
 
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @FormUrlEncoded
+    @POST("Api_dokumen/show_dokumen_before_disposisi_by_id_jenis")
+    Call<List<Ent_surat>>  show_dokumen_before_disposisi_by_id_jenis(@Field("status") String status,
+                                                                     @Field("id_jenis_dokumen") String id_jenis_dokumen,
+                                                                     @Field("offset") int offset,
+                                                                     @Field("row_count") int row_count);
+
+    @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
+    @FormUrlEncoded
+    @POST("Api_dokumen/search_dokumen_before_disposisi_by_id_jenis_dari")
+    Call<List<Ent_surat>>  search_dokumen_before_disposisi_by_id_jenis_dari(@Field("status") String status,
+                                                                     @Field("id_jenis_dokumen") String id_jenis_dokumen,
+                                                                     @Field("dari") String dari,
+                                                                     @Field("offset") int offset,
+                                                                     @Field("row_count") int row_count);
+
+
+    @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
+    @FormUrlEncoded
     @POST("Api_dokumen/search_dokumen_before_disposisi_by_dari")
     Call<List<Ent_surat>>  search_dokumen_before_disposisi_by_dari(@Field("status") String status,
                                                                    @Field("id_sifat_dokumen") int id_sifat_dokumen,
@@ -124,6 +142,12 @@ public interface Api_Interface {
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @GET("Api_dokumen/jenis_dokumen")
     Call<List<Ent_jenis_dokumen>> jenis_dokumen();
+
+    @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
+    @FormUrlEncoded
+    @POST("Api_dokumen/list_jenis_dokumen_jml")
+    Call<List<Ent_jenis_dokumen>> list_jenis_dokumen_jml(@Field("status") String status);
+
 
     @Headers("KEY:25f9e794323b453885f5181f1b624d0b")
     @FormUrlEncoded

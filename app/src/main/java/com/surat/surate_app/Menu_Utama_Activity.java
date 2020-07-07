@@ -1,8 +1,6 @@
 package com.surat.surate_app;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +12,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -27,18 +24,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
-import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,24 +43,21 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.surat.surate_app.Adapter.Jenis_Dokumen_Adapter;
 import com.surat.surate_app.Adapter.List_Dokumen_Adapter;
-import com.surat.surate_app.Adapter.MyAdapter;
 import com.surat.surate_app.Adapter.MyAdapter_1;
+import com.surat.surate_app.Adapter.TabPager_sifat_jenis_Adapter;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
 import com.surat.surate_app.Fragment.fg_jenis;
 import com.surat.surate_app.Fragment.fg_sifat;
 import com.surat.surate_app.Model.Ent_User;
 import com.surat.surate_app.Model.Ent_cekImei;
-import com.surat.surate_app.Model.Ent_jenis_dokumen;
 import com.surat.surate_app.Model.Ent_sifat_surat;
 import com.surat.surate_app.Model.Ent_surat;
 import com.surat.surate_app.Model.Ent_total_surat;
-import com.surat.surate_app.Model.onMenuClick;
 import com.surat.surate_app.SQLite.Crud;
 import com.surat.surate_app.Util.NotificationUtils;
 import com.surat.surate_app.Util.SharedPref;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -552,6 +546,14 @@ fg_sifat.OnFragmentInteractionListener,
     {
 
         bar = Snackbar.make(findViewById(R.id.sb_menu_utama),text, Snackbar.LENGTH_INDEFINITE);
+        View view = bar.getView();
+        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        view.setLayoutParams(params);
+        view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        TextView mainTextView = (TextView) (view).findViewById(android.support.design.R.id.snackbar_text);
+        mainTextView.setTextColor(Color.WHITE);
+
         bar.setAction(action, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -559,9 +561,8 @@ fg_sifat.OnFragmentInteractionListener,
                 startActivity(new Intent(Menu_Utama_Activity.this,Menu_Utama_Activity.class));
                 finish();
             }
-        });
+        }).setActionTextColor(Color.YELLOW);
         bar.show();
-
     }
 
     private void showSnackbar_text(String text)

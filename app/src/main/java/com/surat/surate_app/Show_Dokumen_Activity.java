@@ -392,5 +392,8 @@ public class Show_Dokumen_Activity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

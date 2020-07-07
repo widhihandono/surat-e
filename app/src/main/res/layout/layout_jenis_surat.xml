@@ -23,10 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Jenis Dokumen"
-            android:textStyle="bold"
-            android:textSize="20dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textSize="18dp"
             android:id="@+id/tvJenisSurat"
-            android:textColor="#2B2A2A"/>
+            android:textColor="#111111"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,8 +34,8 @@
             android:text="Total : 10"
             android:layout_marginTop="3dp"
             android:id="@+id/tvJumlahSurat"
-            android:textSize="16dp"
-            android:fontFamily="sans-serif"
-            android:textColor="#353535"/>
+            android:textSize="14dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="#575656"/>
     </LinearLayout>
 </LinearLayout>
