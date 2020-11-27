@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient"
-    tools:context=".Detail_Dokumen_Activity">
+    tools:context="com.surat.surate_app.Detail_Dokumen_Activity">
 
     <!--<com.github.barteksc.pdfviewer.PDFView-->
         <!--android:layout_width="match_parent"-->
@@ -14,16 +14,19 @@
 
     <!--</com.github.barteksc.pdfviewer.PDFView>-->
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tablayout"
-        app:tabGravity="center"
-        android:background="@color/merah"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:tabIndicatorColor="#fff"
+        android:background="@color/merah">
 
-    </android.support.design.widget.TabLayout>
+    </com.google.android.material.tabs.TabLayout>
 
     <com.surat.surate_app.Util.NotSwipableViewPager
         android:layout_width="match_parent"

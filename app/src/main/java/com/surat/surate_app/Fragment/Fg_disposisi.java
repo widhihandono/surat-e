@@ -18,10 +18,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -41,7 +37,12 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
 import com.surat.surate_app.Menu_Utama_Activity;
@@ -67,6 +68,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -404,47 +406,109 @@ public class Fg_disposisi extends Fragment {
         return view;
     }
 
+
+    private File storeImage(Bitmap image) {
+        File pictureFile = getOutputMediaFile();
+        if (pictureFile == null) {
+            return pictureFile;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.d("error", "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            Log.d("error", "Error accessing file: " + e.getMessage());
+        }
+
+        return pictureFile;
+    }
+
+
+    private File getFile()
+    {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        // Create a media file name
+        File mediaFile;
+        String mImageName = id_dokumenx+".jpg";
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
+
+
+    private  File getOutputMediaFile(){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        // Create a media file name
+        File mediaFile;
+        String mImageName = id_dokumenx+".jpg";
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+
+        if(mediaFile.exists())
+        {
+            mediaFile.delete();
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+
+        }
+        return mediaFile;
+    }
+
+
     private void input_disposisi_lokal()
     {
-        if(crudSqlite.getData_surat().size() > 0 )
+        if(storeImage(encodePhoto_bitmap()) != null)
         {
-            for(int a=0;a < crudSqlite.getData_surat().size();a++)
+            if(crudSqlite.getData_surat_by_id(id_dokumenx).size() > 0)
             {
-                if(crudSqlite.getData_surat().get(a).getId_dokumen() == id_dokumenx)
+                crudSqlite.update_dokumen_by_id(id_dokumenx,id_dokumenx+".jpg");
+                Toast.makeText(getActivity(),"Data berhasil di update",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                if(crudSqlite.InsertData(darix,nomor_suratx,tanggal_suratx,perihalx,diterimaTglx,no_agendax,id_disposisix,
+                        path_disposisix,pathx,path_filex,statusx,id_dokumenx,tgl_kirim_tu_umumx,tgl_kirim_tu_bupatix,tgl_kirim_bupatix,time_dokumenx,
+                        id_jenis_dokumenx,jenis_dokumenx,id_sifat_dokumenx,sifat_dokumenx,id_dokumenx+".jpg"))
                 {
-                    crudSqlite.update_dokumen_by_id(String.valueOf(id_dokumenx),encodePhoto());
-                    Toast.makeText(getActivity(),"Data berhasil di update",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),"Data berhasil disimpan di Terdisposisi belum kirim",Toast.LENGTH_LONG).show();
+
                 }
                 else
                 {
-                    if(crudSqlite.InsertData(darix,nomor_suratx,tanggal_suratx,perihalx,diterimaTglx,no_agendax,id_disposisix,
-                            path_disposisix,pathx,path_filex,statusx,id_dokumenx,tgl_kirim_tu_umumx,tgl_kirim_tu_bupatix,tgl_kirim_bupatix,time_dokumenx,
-                            id_jenis_dokumenx,jenis_dokumenx,id_sifat_dokumenx,sifat_dokumenx,encodePhoto()))
-                    {
-                        Toast.makeText(getContext(),"Data berhasil disimpan di Terdisposisi belum kirim",Toast.LENGTH_LONG).show();
-
-                    }
-                    else
-                    {
-                        Toast.makeText(getContext(),"Data gagal disimpan",Toast.LENGTH_LONG).show();
-                    }
+                    Toast.makeText(getContext(),"Data gagal disimpan",Toast.LENGTH_LONG).show();
                 }
-
             }
         }
         else
         {
-            if(crudSqlite.InsertData(darix,nomor_suratx,tanggal_suratx,perihalx,diterimaTglx,no_agendax,id_disposisix,
-                    path_disposisix,pathx,path_filex,statusx,id_dokumenx,tgl_kirim_tu_umumx,tgl_kirim_tu_bupatix,tgl_kirim_bupatix,time_dokumenx,
-                    id_jenis_dokumenx,jenis_dokumenx,id_sifat_dokumenx,sifat_dokumenx,encodePhoto()))
-            {
-                Toast.makeText(getContext(),"Data berhasil disimpan di Terdisposisi belum kirim",Toast.LENGTH_LONG).show();
-
-            }
-            else
-            {
-                Toast.makeText(getContext(),"Data gagal disimpan",Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(getContext(),"Data gagal disimpan",Toast.LENGTH_LONG).show();
         }
 
 
@@ -467,7 +531,7 @@ public class Fg_disposisi extends Fragment {
                         {
                             file.delete();
                             callBroadCast();
-                            crudSqlite.hapus_dokumen_by_id(String.valueOf(id_dokumenx));
+                            crudSqlite.hapus_dokumen_by_id(id_dokumenx);
                             startActivity(new Intent(getActivity(), Menu_Utama_Activity.class));
                             getActivity().finish();
                         }
@@ -603,7 +667,8 @@ public class Fg_disposisi extends Fragment {
                 {
                     file.delete();
                     callBroadCast();
-                    crudSqlite.hapus_dokumen_by_id(String.valueOf(id_dokumenx));
+                    getFile().delete();
+                    crudSqlite.hapus_dokumen_by_id(id_dokumenx);
                     startActivity(new Intent(getActivity(), Menu_Utama_Activity.class));
                     getActivity().finish();
                 }
@@ -984,6 +1049,13 @@ public class Fg_disposisi extends Fragment {
         bitmap = loadBitmapFromView(drawView,drawView.getWidth(),drawView.getHeight());
         return imageUtils.bitmapToBase64String(bitmap,100);
     }
+
+    public Bitmap encodePhoto_bitmap()
+    {
+        bitmap = loadBitmapFromView(drawView,drawView.getWidth(),drawView.getHeight());
+        return bitmap;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

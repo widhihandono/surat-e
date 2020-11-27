@@ -3,12 +3,14 @@ package com.surat.surate_app;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.barteksc.pdfviewer.PDFView;
+import com.google.android.material.tabs.TabLayout;
 import com.surat.surate_app.Adapter.TabPager_lokal_Adapter;
 import com.surat.surate_app.Fragment.Fg_disposisi_lokal;
 import com.surat.surate_app.Fragment.Fg_dokumen_lokal;
@@ -59,7 +61,7 @@ View.OnClickListener onClickListener;
                                     );
         myPagerAdapter.addFragment(getIntent().getExtras().getString("path_file"),getIntent().getExtras().getString("path"));
         viewPager.setAdapter(myPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
 
@@ -89,6 +91,9 @@ View.OnClickListener onClickListener;
 
     }
 
-
-
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.clear();
+    }
 }

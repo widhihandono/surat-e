@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.github.barteksc.pdfviewer.PDFView;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Dokumen_activity;
 import com.surat.surate_app.R;
+import com.surat.surate_app.SQLite.Crud;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -49,6 +51,7 @@ public class Fg_dokumen extends Fragment {
     ProgressBar PgBar;
     Dialog dialog;
     TextView tvProgress,tvRefresh,tvCancel;
+    Crud crud;
 
     public Fg_dokumen() {
         // Required empty public constructor
@@ -85,6 +88,7 @@ public class Fg_dokumen extends Fragment {
         view_pgBar = getLayoutInflater().inflate(R.layout.progress_bar_layout,null);
         PgBar = view_pgBar.findViewById(R.id.pgBar);
         dialog = new Dialog(getActivity());
+        crud = new Crud(getActivity());
 
         pdfView = view.findViewById(R.id.pdfView);
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + path_filex);

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.constraintlayout.widget.Constraints;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.surat.surate_app.Menu_Utama_Activity;
@@ -21,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-import static android.support.constraint.Constraints.TAG;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 private static final String Tag = "MyFirebaseMessagingService";
@@ -71,11 +72,11 @@ Intent resultIntent;
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.d(Constraints.TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Log.d(Constraints.TAG, "Message data payload: " + remoteMessage.getData());
             Map<String, String> data = remoteMessage.getData();
             handleData(data);
             if (/* Check if data needs to be processed by long running job */ true) {
@@ -92,7 +93,7 @@ Intent resultIntent;
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(Constraints.TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             handleNotification(remoteMessage.getNotification());
         }
 

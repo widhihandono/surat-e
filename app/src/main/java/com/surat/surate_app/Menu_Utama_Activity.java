@@ -11,18 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -39,6 +28,18 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.surat.surate_app.Adapter.Jenis_Dokumen_Adapter;
@@ -48,6 +49,7 @@ import com.surat.surate_app.Adapter.TabPager_sifat_jenis_Adapter;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
 import com.surat.surate_app.Fragment.fg_jenis;
+import com.surat.surate_app.Fragment.fg_map_corona;
 import com.surat.surate_app.Fragment.fg_sifat;
 import com.surat.surate_app.Model.Ent_User;
 import com.surat.surate_app.Model.Ent_cekImei;
@@ -67,7 +69,7 @@ import retrofit2.Response;
 
 public class Menu_Utama_Activity extends AppCompatActivity implements Jenis_Dokumen_Adapter.JenisAdapterCallback,
 fg_sifat.OnFragmentInteractionListener,
-        fg_jenis.OnFragmentInteractionListener{
+        fg_jenis.OnFragmentInteractionListener, fg_map_corona.OnFragmentInteractionListener{
 
     Ent_sifat_surat mEntsifatsurat;
     private RecyclerView.LayoutManager layoutManager;
@@ -78,7 +80,7 @@ fg_sifat.OnFragmentInteractionListener,
     TextView version,tvSetting,tvUbahPass;
     Snackbar bar;
     RecyclerView recyclerView_1;
-    String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE};
+    String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_EXTERNAL_STORAGE};
 
     int permsRequestCode = 200;
     SwipeRefreshLayout swLayout;
@@ -110,14 +112,14 @@ fg_sifat.OnFragmentInteractionListener,
         tvSetting = findViewById(R.id.tvSetting);
         tvUbahPass = findViewById(R.id.tvUbahPass);
 
-        version.setText("1.7");
+        version.setText("1.9");
 
         vPager =  findViewById(R.id.pager);
         TabPager_sifat_jenis_Adapter myPagerAdapter = new TabPager_sifat_jenis_Adapter(getSupportFragmentManager());
         myPagerAdapter.addFragment();
         myPagerAdapter.addFragment();
         vPager.setAdapter(myPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(vPager);
 
 
@@ -136,7 +138,8 @@ fg_sifat.OnFragmentInteractionListener,
         FirebaseMessaging.getInstance().subscribeToTopic(sharedPref.sp.getString("role",""));
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+            ||ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -352,7 +355,7 @@ fg_sifat.OnFragmentInteractionListener,
                         }
                         else
                         {
-                            showDialogCekImei(response.body().getPesan());
+                            showDialogCekImei(getUniqueIMEIId());
                         }
                     }
 
@@ -554,7 +557,7 @@ fg_sifat.OnFragmentInteractionListener,
                     }
                     else
                     {
-                        if(Float.parseFloat(response.body().getVersi()) > 1.7)
+                        if(Float.parseFloat(response.body().getVersi()) > 1.8)
                         {
                             showDialogCekVersion(response.body().getPesan());
                         }
@@ -590,7 +593,7 @@ fg_sifat.OnFragmentInteractionListener,
         params.gravity = Gravity.TOP;
         view.setLayoutParams(params);
         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        TextView mainTextView = (TextView) (view).findViewById(android.support.design.R.id.snackbar_text);
+        TextView mainTextView = (TextView) (view).findViewById(R.id.snackbar_text);
         mainTextView.setTextColor(Color.WHITE);
 
         bar.setAction(action, new View.OnClickListener() {
@@ -713,7 +716,7 @@ fg_sifat.OnFragmentInteractionListener,
 
     public String getUniqueIMEIId() {
 
-        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -724,17 +727,26 @@ fg_sifat.OnFragmentInteractionListener,
             // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(this, perms, permsRequestCode);
         }
-        String imei = telephonyManager.getDeviceId();
-        String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.e("imei", "=" + imei);
-        Log.e("android_id", "=" + android_id);
-        if (imei != null && !imei.isEmpty()) {
-            return imei;
+        String deviceId;
+        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            deviceId = Settings.Secure.getString(
+                    getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
         } else {
-
-            return android_id;
+            telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            if (telephonyManager.getDeviceId() != null) {
+                deviceId = telephonyManager.getDeviceId();
+            } else {
+                deviceId = Settings.Secure.getString(
+                        getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+            }
         }
+
+        return deviceId;
     }
 
 

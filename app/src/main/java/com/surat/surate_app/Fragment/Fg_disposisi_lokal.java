@@ -3,6 +3,7 @@ package com.surat.surate_app.Fragment;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,10 +20,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -43,7 +40,13 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
 import com.surat.surate_app.Menu_Utama_Activity;
@@ -68,9 +71,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -124,6 +131,11 @@ public class Fg_disposisi_lokal extends Fragment {
     }
 
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.clear();
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -236,9 +248,13 @@ public class Fg_disposisi_lokal extends Fragment {
 
         drawView =  view.findViewById(R.id.drawView);
         //set Image decode
-        byte[] decodeString = Base64.decode(gambarx,Base64.DEFAULT);
-        Bitmap bmpDecode = BitmapFactory.decodeByteArray(decodeString,0,decodeString.length);
-        drawView.setImageBitmap(bmpDecode);
+//        byte[] decodeString = Base64.decode(gambarx,Base64.DEFAULT);
+//        Bitmap bmpDecode = BitmapFactory.decodeByteArray(decodeString,0,decodeString.length);
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bmp_ = BitmapFactory.decodeFile(getFile().getAbsolutePath(),bmOptions);
+//        drawView.setIma
+//        Toast.makeText(getContext(),getFile().getAbsolutePath(),Toast.LENGTH_LONG).show();
+        drawView.setImageBitmap(bmp_);
 
         ViewTreeObserver vto = drawView.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -414,17 +430,92 @@ public class Fg_disposisi_lokal extends Fragment {
     private void input_disposisi_lokal()
     {
 
-        if(crudSqlite.update_dokumen_by_id(String.valueOf(id_dokumenx),encodePhoto()))
-        {
-            Toast.makeText(getActivity(),"Data berhasil di update",Toast.LENGTH_LONG).show();
+            if(storeImage(encodePhoto_bitmap()) != null)
+            {
+                if(crudSqlite.update_dokumen_by_id(id_dokumenx,id_dokumenx+".jpg"))
+                {
+                    Toast.makeText(getActivity(),"Data berhasil di update",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(),"Data Gagal di update",Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getActivity(),"Data Gagal di update",Toast.LENGTH_LONG).show();
+            }
+
+    }
+
+    private File storeImage(Bitmap image) {
+        File pictureFile = getOutputMediaFile();
+        if (pictureFile == null) {
+            return pictureFile;
         }
-        else
-        {
-            Toast.makeText(getActivity(),"Data Gagal di update",Toast.LENGTH_LONG).show();
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.d("error", "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            Log.d("error", "Error accessing file: " + e.getMessage());
         }
+        return pictureFile;
+    }
 
+    private File getFile()
+    {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getContext().getPackageName()
+                + "/Files");
 
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
 
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        // Create a media file name
+        File mediaFile;
+        String mImageName = id_dokumenx+".jpg";
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+        return mediaFile;
+    }
+    private  File getOutputMediaFile(){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + getContext().getPackageName()
+                + "/Files");
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+        // Create a media file name
+        File mediaFile;
+        String mImageName = id_dokumenx+".jpg";
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+
+        if(mediaFile.exists())
+        {
+            mediaFile.delete();
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+
+        }
+        return mediaFile;
     }
 
     private void input_disposisi()
@@ -444,7 +535,7 @@ public class Fg_disposisi_lokal extends Fragment {
                         {
                             file.delete();
                             callBroadCast();
-                            crudSqlite.hapus_dokumen_by_id(String.valueOf(id_dokumenx));
+                            crudSqlite.hapus_dokumen_by_id(id_dokumenx);
                             startActivity(new Intent(getActivity(), Menu_Utama_Activity.class));
                             getActivity().finish();
                         }
@@ -581,7 +672,8 @@ public class Fg_disposisi_lokal extends Fragment {
                 {
                     file.delete();
                     callBroadCast();
-                    crudSqlite.hapus_dokumen_by_id(String.valueOf(id_dokumenx));
+                    getFile().delete();
+                    crudSqlite.hapus_dokumen_by_id(id_dokumenx);
                     startActivity(new Intent(getActivity(), Menu_Utama_Activity.class));
                     getActivity().finish();
                 }
@@ -919,6 +1011,12 @@ public class Fg_disposisi_lokal extends Fragment {
     {
         bitmap = loadBitmapFromView(drawView,drawView.getWidth(),drawView.getHeight());
         return imageUtils.bitmapToBase64String(bitmap,100);
+    }
+
+    public Bitmap encodePhoto_bitmap()
+    {
+        bitmap = loadBitmapFromView(drawView,drawView.getWidth(),drawView.getHeight());
+        return bitmap;
     }
     /**
      * This interface must be implemented by activities that contain this

@@ -14,11 +14,12 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
-import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 
+
+import androidx.core.app.NotificationCompat;
 
 import com.surat.surate_app.Menu_Utama_Activity;
 import com.surat.surate_app.Model.Notif;
@@ -32,7 +33,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.support.constraint.Constraints.TAG;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class NotificationUtils {
 
@@ -59,6 +60,7 @@ public class NotificationUtils {
      * @param notificationVO
      * @param resultIntent
      */
+    @SuppressLint("WrongConstant")
     public void displayNotification(Notif notificationVO, Intent resultIntent) {
         {
             String message = notificationVO.getMessage();

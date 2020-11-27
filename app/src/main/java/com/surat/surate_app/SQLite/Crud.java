@@ -64,6 +64,28 @@ public class Crud {
     }
 
 
+    public List<Ent_surat> getData_surat_by_id(int id_dokumen)
+    {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_dokumen FROM "+ Helper.TABLE_DISPOSISI +" WHERE id_dokumen = '"+id_dokumen+"'",null);
+        List<Ent_surat> listSurat = new ArrayList<>();
+        while (cursor.moveToNext())
+        {
+            Ent_surat es = new Ent_surat();
+            es.setId_dokumen(cursor.getInt(cursor.getColumnIndex(Helper.ID_DOKUMEN)));
+
+//            int cid = cursor.getInt(cursor.getColumnIndex(Helper.UID));
+//            String nomor = cursor.getString(cursor.getColumnIndex(Helper.NOMOR));
+//            String alamat = cursor.getString(cursor.getColumnIndex(Helper.ALAMAT));
+//            String kategori = cursor.getString(cursor.getColumnIndex(Helper.KATEGORI));
+
+            listSurat.add(es);
+
+        }
+        return listSurat;
+    }
+
     public List<Ent_surat> getData_surat()
     {
 
@@ -115,21 +137,21 @@ public class Crud {
     public boolean hapus_dokumen_all()
     {
         SQLiteDatabase db = helper.getWritableDatabase();
-        return db.delete(Helper.TABLE_DISPOSISI,null,null) > 0;
+        return db.delete(Helper.TABLE_DISPOSISI,null,null) >= 0;
     }
 
-    public boolean hapus_dokumen_by_id(String id)
+    public boolean hapus_dokumen_by_id(int id)
     {
         SQLiteDatabase db = helper.getWritableDatabase();
         return db.delete(Helper.TABLE_DISPOSISI,helper.ID_DOKUMEN+"="+id,null) > 0;
     }
 
-    public boolean update_dokumen_by_id(String id,String gambar)
+    public boolean update_dokumen_by_id(int id,String gambar)
     {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(helper.GAMBAR,gambar);
-        return db.update(Helper.TABLE_DISPOSISI,cv,helper.ID_DOKUMEN+"="+id,null) > 0;
+        return db.update(Helper.TABLE_DISPOSISI,cv,helper.ID_DOKUMEN+"="+id,null) >= 0;
     }
 
 

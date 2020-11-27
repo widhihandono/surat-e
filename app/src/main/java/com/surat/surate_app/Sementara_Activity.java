@@ -1,11 +1,12 @@
 package com.surat.surate_app;
 
 import android.net.Uri;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.surat.surate_app.Adapter.TabPager_sifat_jenis_Adapter;
 import com.surat.surate_app.Fragment.fg_jenis;
 import com.surat.surate_app.Fragment.fg_sifat;
@@ -24,7 +25,7 @@ ViewPager vPager;
         myPagerAdapter.addFragment();
         myPagerAdapter.addFragment();
         vPager.setAdapter(myPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(vPager);
     }
 

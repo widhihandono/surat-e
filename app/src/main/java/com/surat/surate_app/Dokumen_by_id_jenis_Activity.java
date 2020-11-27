@@ -3,12 +3,7 @@ package com.surat.surate_app;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -20,7 +15,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.google.android.material.snackbar.Snackbar;
 import com.surat.surate_app.Adapter.List_Dokumen_Adapter;
 import com.surat.surate_app.Api.Api_Class;
 import com.surat.surate_app.Api.Api_Interface;
@@ -240,7 +241,7 @@ public class Dokumen_by_id_jenis_Activity extends AppCompatActivity {
         params.gravity = Gravity.TOP;
         view.setLayoutParams(params);
         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        TextView mainTextView = (TextView) (view).findViewById(android.support.design.R.id.snackbar_text);
+        TextView mainTextView = (TextView) (view).findViewById(R.id.snackbar_text);
         mainTextView.setTextColor(Color.WHITE);
 
         bar.setAction(action, new View.OnClickListener() {

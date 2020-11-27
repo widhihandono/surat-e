@@ -1,9 +1,9 @@
 package com.surat.surate_app.Adapter;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.surat.surate_app.Fragment.Fg_disposisi_terdisposisi;
 import com.surat.surate_app.Fragment.Fg_dokumen_terdisposisi;

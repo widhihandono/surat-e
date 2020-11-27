@@ -1,13 +1,15 @@
 package com.surat.surate_app.Adapter;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.surat.surate_app.Fragment.Fg_disposisi_terdisposisi;
 import com.surat.surate_app.Fragment.Fg_dokumen_terdisposisi;
 import com.surat.surate_app.Fragment.fg_jenis;
+import com.surat.surate_app.Fragment.fg_map_corona;
 import com.surat.surate_app.Fragment.fg_sifat;
 
 public class TabPager_sifat_jenis_Adapter extends FragmentPagerAdapter {
@@ -35,13 +37,14 @@ public class TabPager_sifat_jenis_Adapter extends FragmentPagerAdapter {
         {
             case 0: return fg_sifat.newInstance();
             case 1: return fg_jenis.newInstance();
+            case 2: return fg_map_corona.newInstance();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Nullable
@@ -51,6 +54,7 @@ public class TabPager_sifat_jenis_Adapter extends FragmentPagerAdapter {
         {
             case 0: return "Sifat Surat";
             case 1: return "Jenis Surat";
+            case 2: return "Covid-19 Maps";
             default: return null;
         }
     }

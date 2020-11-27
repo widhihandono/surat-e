@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_gravity="top|right"
         android:layout_width="wrap_content"
@@ -37,6 +37,7 @@
                 android:id="@+id/zoom"
                 android:text="Zoom"
                 android:textAlignment="center"
+                android:layout_gravity="center"
                 android:textSize="14dp"
                 android:textStyle="bold"
                 android:padding="7dp"
@@ -44,7 +45,7 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/shape_lable"
                 android:layout_marginBottom="3dp"/>
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabNormal"
                 android:visibility="invisible"
                 android:layout_width="wrap_content"
@@ -67,6 +68,7 @@
             android:id="@+id/pen"
             android:text="Disposisi"
             android:textAlignment="center"
+            android:layout_gravity="center"
             android:textSize="14dp"
             android:textStyle="bold"
             android:padding="7dp"
@@ -74,7 +76,7 @@
             android:textColor="@android:color/white"
             android:background="@drawable/shape_lable"
             android:layout_marginBottom="3dp"/>
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pen_white_32px"
@@ -98,13 +100,14 @@
             android:text="Clear"
             android:visibility="invisible"
             android:textAlignment="center"
+            android:layout_gravity="center"
             android:textSize="14dp"
             android:textStyle="bold"
             android:padding="7dp"
             android:textColor="@android:color/white"
             android:background="@drawable/shape_lable"
             android:layout_marginBottom="3dp"/>
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabClear"
             android:visibility="invisible"
             android:layout_width="wrap_content"
@@ -127,6 +130,7 @@
             android:id="@+id/save"
             android:text="Save"
             android:textAlignment="center"
+            android:layout_gravity="center"
             android:textSize="14dp"
             android:textStyle="bold"
             android:padding="7dp"
@@ -134,7 +138,7 @@
             android:textColor="@android:color/white"
             android:background="@drawable/shape_lable"
             android:layout_marginBottom="3dp"/>
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fabSave"
@@ -157,6 +161,7 @@
                 android:id="@+id/upload"
                 android:text="Kirim Tu Bupati"
                 android:textAlignment="center"
+                android:layout_gravity="center"
                 android:textSize="14dp"
                 android:textStyle="bold"
                 android:padding="7dp"
@@ -164,7 +169,7 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/shape_lable"
                 android:layout_marginBottom="3dp"/>
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/fabUpload"
@@ -185,7 +190,7 @@
         android:layout_marginTop="185dp"
         android:layout_marginRight="175dp">
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:pressedTranslationZ="12dp"
@@ -200,6 +205,7 @@
             android:id="@+id/eraserAll"
             android:text="Eraser All"
             android:textAlignment="center"
+            android:layout_gravity="center"
             android:textSize="14dp"
             android:visibility="invisible"
             android:textStyle="bold"
@@ -207,7 +213,7 @@
             android:textColor="@android:color/white"
             android:background="@drawable/shape_lable"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fabEraser"
@@ -224,6 +230,7 @@
             android:text="Eraser"
             android:visibility="invisible"
             android:textAlignment="center"
+            android:layout_gravity="center"
             android:textSize="14dp"
             android:textStyle="bold"
             android:padding="7dp"

@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import static android.support.constraint.Constraints.TAG;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 //https://stackoverflow.com/questions/28042140/creating-a-drawable-zoomable-image-view-in-android
 public class DrawableImageView extends ImageView implements View.OnTouchListener
